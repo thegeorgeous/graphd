@@ -22,6 +22,10 @@ module Winden
       response.tag
     end
 
+    def alter(operation)
+      client.alter(operation)
+    end
+
     private
 
     def client

@@ -19,5 +19,9 @@ module Winden
     def check_version(request)
       @stub.check_version(request)
     end
+
+    def alter(operation)
+      @stub.alter(operation)
+    end
   end
 end
