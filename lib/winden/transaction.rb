@@ -13,8 +13,8 @@ module Winden
       @read_only = read_only
     end
 
-    def mutate(mutation: nil, set_obj: nil, commit_now: nil)
-      request_mutation = create_mutation(mutation: mutation, set_obj: set_obj)
+    def mutate(mutation: nil, set_obj: nil, del_obj: nil, commit_now: nil)
+      request_mutation = create_mutation(mutation: mutation, set_obj: set_obj, del_obj: del_obj)
       commit_now ||= request_mutation.commit_now
       request = create_request(mutations: [request_mutation], commit_now: commit_now)
       do_request(request)
@@ -25,10 +25,11 @@ module Winden
       do_request(request)
     end
 
-    def create_mutation(mutation:, set_obj:)
+    def create_mutation(mutation:, set_obj:, del_obj:)
       mutation ||= ::Api::Mutation.new
 
       mutation.set_json = set_obj.to_json if set_obj
+      mutation.delete_json = del_obj.to_json if del_obj
 
       mutation
     end

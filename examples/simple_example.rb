@@ -78,6 +78,29 @@ def create_data(client)
   txn.discard
 end
 
+# Deleting a data
+def delete_data(client)
+  # Create a new transaction.
+  txn = client.txn
+  query1 = "query all($a: string) {
+            all(func: eq(name, $a)) {
+               uid
+            }
+        }"
+  variables1 = { '$a': 'Bob' }
+  res1 = client.txn(read_only: true).query(query1, variables: variables1)
+  ppl1 = JSON.parse(res1.json)
+
+  ppl1['all'].each do |person|
+    p "Bob's UID: #{person['uid']}"
+    txn.mutate(del_obj: person)
+    p 'Bob deleted'
+    txn.commit
+  end
+
+  txn.discard
+end
+
 # Query for data.
 def query_alice(client)
   # Run query.
@@ -107,6 +130,34 @@ def query_alice(client)
   p "Number of people named 'Alice': #{ppl['all'].length}"
 end
 
+# Query to check for deleted node
+def query_bob(client)
+  query = "query all($b: string) {
+            all(func: eq(name, $b)) {
+                uid
+                name
+                age
+                friend {
+                    uid
+                    name
+                    age
+                }
+                ~friend {
+                    uid
+                    name
+                    age
+                }
+            }
+        }"
+
+  variables = { '$b': 'Bob' }
+  res = client.txn(read_only: true).query(query, variables: variables)
+  ppl = JSON.parse(res.json)
+
+  # Print results.
+  p "Number of people named 'Bob': #{ppl['all'].length}"
+end
+
 def run
   dgraph_client = client(client_stub)
   version = dgraph_client.check_version
@@ -115,6 +166,10 @@ def run
   create_schema(dgraph_client)
   create_data(dgraph_client)
   query_alice(dgraph_client)
+  query_bob(dgraph_client)
+  delete_data(dgraph_client)
+  query_alice(dgraph_client)
+  query_bob(dgraph_client)
 end
 
 run
