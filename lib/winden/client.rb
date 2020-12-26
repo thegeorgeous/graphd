@@ -27,8 +27,8 @@ module Winden
       client.alter(operation)
     end
 
-    def txn
-      Transaction.new(self)
+    def txn(read_only: false)
+      Transaction.new(self, read_only: read_only)
     end
 
     def client

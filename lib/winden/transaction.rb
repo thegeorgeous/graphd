@@ -20,6 +20,11 @@ module Winden
       do_request(request)
     end
 
+    def query(query, variables: nil)
+      request = create_request(query: query, variables: variables)
+      do_request(request)
+    end
+
     def create_mutation(mutation:, set_obj:)
       mutation ||= ::Api::Mutation.new
 
@@ -28,9 +33,19 @@ module Winden
       mutation
     end
 
-    def create_request(mutations:, commit_now:)
+    def create_request(query: nil, variables: nil, mutations: nil, commit_now: nil)
       request = ::Api::Request.new(start_ts: @transaction_context.start_ts, commit_now: commit_now)
+      variables&.each do |key, value|
+        if key.is_a?(String) && value.is_a?(String)
+          raise TransactionError, 'Values and keys in variable map must be strings'
+        end
+
+        request.vars[key] = value
+      end
+
+      request.query = query if query
       request.mutations += mutations if mutations
+
       request
     end
 

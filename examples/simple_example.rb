@@ -78,6 +78,35 @@ def create_data(client)
   txn.discard
 end
 
+# Query for data.
+def query_alice(client)
+  # Run query.
+  query = "query all($a: string) {
+        all(func: eq(name, $a)) {
+            uid
+            name
+            age
+            married
+            loc
+            dob
+            friend {
+                name
+                age
+            }
+            school {
+                name
+            }
+        }
+    }"
+
+  variables = { '$a': 'Alice' }
+  res = client.txn(read_only: true).query(query, variables: variables)
+  ppl = JSON.parse(res.json)
+
+  # Print results.
+  p "Number of people named 'Alice': #{ppl['all'].length}"
+end
+
 def run
   dgraph_client = client(client_stub)
   version = dgraph_client.check_version
@@ -85,6 +114,7 @@ def run
   drop_all(dgraph_client)
   create_schema(dgraph_client)
   create_data(dgraph_client)
+  query_alice(dgraph_client)
 end
 
 run
