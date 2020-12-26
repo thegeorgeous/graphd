@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'api_pb'
+require_relative 'transaction'
 
 module Winden
   # Client initialized to talk to a DGraph instance
@@ -26,7 +27,9 @@ module Winden
       client.alter(operation)
     end
 
-    private
+    def txn
+      Transaction.new(self)
+    end
 
     def client
       @clients.sample

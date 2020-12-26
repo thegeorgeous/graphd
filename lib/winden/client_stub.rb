@@ -23,5 +23,13 @@ module Winden
     def alter(operation)
       @stub.alter(operation)
     end
+
+    def query(request)
+      @stub.query(request)
+    end
+
+    def commit_or_abort(transaction_context:)
+      @stub.commit_or_abort(transaction_context)
+    end
   end
 end
