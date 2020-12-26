@@ -158,18 +158,50 @@ def query_bob(client)
   p "Number of people named 'Bob': #{ppl['all'].length}"
 end
 
+def upsert(client)
+  txn = client.txn
+  query = '{
+        u as var(func: eq(name, "Jonas"))
+  }'
+  nquad = '
+  uid(u) <name> "Jonas" .
+  uid(u) <age> "25" .
+'
+  mutation = txn.create_mutation(set_nquads: nquad)
+  request = txn.create_request(query: query, mutations: [mutation], commit_now: true)
+  txn.do_request(request)
+end
+
+def cond_upsert(client)
+  txn = client.txn
+  query = '
+        {
+          user as var(func: eq(name, "Jonas"))
+        }
+  '
+  cond = '@if(eq(len(user), 1))'
+  nquads = '
+         uid(user) <name> "Jonas Kahnwald" .
+  '
+  mutation = txn.create_mutation(cond: cond, set_nquads: nquads)
+  request = txn.create_request(mutations: [mutation], query: query, commit_now: true)
+  txn.do_request(request)
+end
+
 def run
   dgraph_client = client(client_stub)
   version = dgraph_client.check_version
   p version
-  drop_all(dgraph_client)
-  create_schema(dgraph_client)
-  create_data(dgraph_client)
-  query_alice(dgraph_client)
-  query_bob(dgraph_client)
-  delete_data(dgraph_client)
-  query_alice(dgraph_client)
-  query_bob(dgraph_client)
+  # drop_all(dgraph_client)
+  # create_schema(dgraph_client)
+  # create_data(dgraph_client)
+  # query_alice(dgraph_client)
+  # query_bob(dgraph_client)
+  # delete_data(dgraph_client)
+  # query_alice(dgraph_client)
+  # query_bob(dgraph_client)
+  # upsert(dgraph_client)
+  cond_upsert(dgraph_client)
 end
 
 run

@@ -25,11 +25,14 @@ module Winden
       do_request(request)
     end
 
-    def create_mutation(mutation:, set_obj:, del_obj:)
+    def create_mutation(mutation: nil, set_obj: nil, del_obj: nil, set_nquads: nil, del_nquads: nil, cond: nil)
       mutation ||= ::Api::Mutation.new
 
       mutation.set_json = set_obj.to_json if set_obj
       mutation.delete_json = del_obj.to_json if del_obj
+      mutation.set_nquads = set_nquads if set_nquads
+      mutation.del_nquads = del_nquads if del_nquads
+      mutation.cond = cond if cond
 
       mutation
     end
