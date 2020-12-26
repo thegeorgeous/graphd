@@ -1,0 +1,6 @@
+AllCops:
+  Exclude:
+    - 'lib/protos'
+    - 'lib/winden/api_pb.rb'
+    - 'lib/winden/api_services_pb.rb'
+  TargetRubyVersion: 2.7

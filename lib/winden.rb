@@ -1,6 +1,7 @@
-require "winden/version"
+# frozen_string_literal: true
 
-module Winden
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require_relative 'winden/version'
+require_relative 'winden/api_pb'
+require_relative 'winden/api_services_pb'
+require_relative 'winden/client_stub'
+require_relative 'winden/client'
