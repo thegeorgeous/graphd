@@ -1,6 +1,6 @@
 # lib/aborted_error.rb
 
-module Winden
+module Graphd
   # Error thrown by aborted transaction
   class AbortedError < StandardError
     def initialize(msg = 'Transaction has been aborted. Please retry')

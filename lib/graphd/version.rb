@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-module Winden
-  VERSION = '0.3.0'
+module Graphd
+  VERSION = '0.4.0'
 end

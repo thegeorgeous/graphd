@@ -3,12 +3,12 @@
 require_relative 'api_pb'
 require_relative 'transaction'
 
-module Winden
+module Graphd
   # Client initialized to talk to a DGraph instance
-  # Accepts multiple instances of Winden::ClientStub
+  # Accepts multiple instances of Graphd::ClientStub
   # Examples:
-  # client_stub = Winden::ClientStub.new('localhost:9080')
-  # client = Winden::Cilent.new(client_stub)
+  # client_stub = Graphd::ClientStub.new('localhost:9080')
+  # client = Graphd::Cilent.new(client_stub)
   class Client
     def initialize(*clients)
       raise ClientError unless clients

@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require_relative 'lib/winden/version'
+require_relative 'lib/graphd/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'winden'
-  spec.version       = Winden::VERSION
+  spec.name          = 'graphd'
+  spec.version       = Graphd::VERSION
   spec.authors       = ['George Thomas']
   spec.email         = ['iamgeorgethomas@gmail.com']
 
   spec.summary       = 'Ruby client for DGraph'
-  spec.homepage      = 'http://thegeorgeous.com/winden'
+  spec.homepage      = 'https://github.com/thegeorgeous/graphd'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
-  spec.metadata['allowed_push_host'] = 'http://rubygems.org'
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'http://rubygems.org/winden'
-  spec.metadata['changelog_uri'] = 'http://github.com/thegeorgeous/winden'
+  spec.metadata['source_code_uri'] = 'https://rubygems.org/graphd'
+  spec.metadata['changelog_uri'] = 'https://github.com/thegeorgeous/graphd'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

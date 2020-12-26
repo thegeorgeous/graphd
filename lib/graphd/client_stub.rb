@@ -3,7 +3,7 @@
 require 'grpc'
 require_relative 'api_services_pb'
 
-module Winden
+module Graphd
   # gRPC Client stub for DGraph
   class ClientStub
     attr_reader :stub

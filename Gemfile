@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in winden.gemspec
+# Specify your gem's dependencies in graphd.gemspec
 gemspec
 
 gem 'grpc'

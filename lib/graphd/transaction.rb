@@ -2,7 +2,7 @@
 
 require 'json'
 
-module Winden
+module Graphd
   class Transaction
     def initialize(client, read_only: false)
       @client = client

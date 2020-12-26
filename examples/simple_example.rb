@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'date'
-require_relative '../lib/winden'
+require 'graphd'
 
 def client_stub
-  @client_stub ||= Winden::ClientStub.new('localhost:9080')
+  @client_stub ||= Graphd::ClientStub.new('localhost:9080')
 end
 
 def client(client_stub)
-  @client ||= Winden::Client.new(client_stub)
+  @client ||= Graphd::Client.new(client_stub)
 end
 
 def drop_all(client)
@@ -192,15 +192,15 @@ def run
   dgraph_client = client(client_stub)
   version = dgraph_client.check_version
   p version
-  # drop_all(dgraph_client)
-  # create_schema(dgraph_client)
-  # create_data(dgraph_client)
-  # query_alice(dgraph_client)
-  # query_bob(dgraph_client)
-  # delete_data(dgraph_client)
-  # query_alice(dgraph_client)
-  # query_bob(dgraph_client)
-  # upsert(dgraph_client)
+  drop_all(dgraph_client)
+  create_schema(dgraph_client)
+  create_data(dgraph_client)
+  query_alice(dgraph_client)
+  query_bob(dgraph_client)
+  delete_data(dgraph_client)
+  query_alice(dgraph_client)
+  query_bob(dgraph_client)
+  upsert(dgraph_client)
   cond_upsert(dgraph_client)
 end
 

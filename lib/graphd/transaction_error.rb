@@ -1,6 +1,6 @@
 # lib/transaction_error.rb
 
-module Winden
+module Graphd
   class TransactionError < StandardError
   end
 end
