@@ -1,4 +1,6 @@
 # Graphd
+[![Gem Version](https://badge.fury.io/rb/graphd.svg)](https://badge.fury.io/rb/graphd)
+
 A Ruby client for [DGraph](https://github.com/dgraph-io/dgraph) that uses [gRPC](https://grpc.io/).
 
 This client follows [pydgraph](https://github.com/dgraph-io/pydgraph) closely.
@@ -20,6 +22,9 @@ And then execute:
 Or install it yourself as:
 
     $ gem install graphd
+
+## Usage
+The `simple_example.rb` script in `examples` demonstrates usage and currently available features.
 
 ## Contributing
 
