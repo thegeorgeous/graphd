@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require_relative 'transaction_error'
 
 module Graphd
   class Transaction
@@ -50,9 +51,11 @@ module Graphd
         best_effort: true
       )
       variables&.each do |key, value|
-        unless key.is_a?(String) && value.is_a?(String)
-          raise TransactionError, 'Values and keys in variable map must be strings'
+        unless key.is_a?(Symbol) || key.is_a?(String)
+          raise TransactionError, 'Keys in variable map must be symbols or strings'
         end
+
+        raise TransactionError, 'Values in variable map must be strings' unless value.is_a?(String)
 
         request.vars[key] = value
       end
