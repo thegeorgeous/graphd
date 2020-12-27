@@ -4,13 +4,18 @@ require 'json'
 
 module Graphd
   class Transaction
-    def initialize(client, read_only: false)
+    def initialize(client, read_only: false, best_effort: false)
+      if !read_only && best_effort
+        raise TransactionError, 'Best effort transactions are only compatible with read-only transactions'
+      end
+
       @client = client
       @client_stub = @client.client
       @transaction_context = ::Api::TxnContext.new
       @finished = false
       @mutated = false
       @read_only = read_only
+      @best_effort = best_effort
     end
 
     def mutate(mutation: nil, set_obj: nil, del_obj: nil, commit_now: nil)
@@ -38,9 +43,14 @@ module Graphd
     end
 
     def create_request(query: nil, variables: nil, mutations: nil, commit_now: nil)
-      request = ::Api::Request.new(start_ts: @transaction_context.start_ts, commit_now: commit_now)
+      request = ::Api::Request.new(
+        start_ts: @transaction_context.start_ts,
+        commit_now: commit_now,
+        read_only: true,
+        best_effort: true
+      )
       variables&.each do |key, value|
-        if key.is_a?(String) && value.is_a?(String)
+        unless key.is_a?(String) && value.is_a?(String)
           raise TransactionError, 'Values and keys in variable map must be strings'
         end
 

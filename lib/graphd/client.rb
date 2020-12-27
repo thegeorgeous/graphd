@@ -27,8 +27,8 @@ module Graphd
       client.alter(operation)
     end
 
-    def txn(read_only: false)
-      Transaction.new(self, read_only: read_only)
+    def txn(read_only: false, best_effort: false)
+      Transaction.new(self, read_only: read_only, best_effort: best_effort)
     end
 
     def client
