@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://rubygems.org/graphd'
+  spec.metadata['source_code_uri'] = 'https://github.com/thegeorgeous/graphd'
   spec.metadata['changelog_uri'] = 'https://github.com/thegeorgeous/graphd'
 
   # Specify which files should be added to the gem when it is released.
@@ -27,4 +27,6 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'bin'
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'grpc', '~> 1.34.0'
 end
