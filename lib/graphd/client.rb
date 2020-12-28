@@ -32,6 +32,7 @@ module Graphd
       response.tag
     end
 
+    # Execute an alter operation
     def alter(operation)
       client.alter(operation)
     end
@@ -46,6 +47,8 @@ module Graphd
       Transaction.new(self, read_only: read_only, best_effort: best_effort)
     end
 
+    # Return a random stub from the list of stubs provided so that requests are
+    # evenly distributed between them
     def client
       @clients.sample
     end

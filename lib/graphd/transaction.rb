@@ -37,6 +37,17 @@ module Graphd
       @best_effort = best_effort
     end
 
+    # Execute a mutate operation
+    #
+    # @param mutation [Api::Mutation] (optional) A mutation to be modified
+    # @param set_obj [Hash] (optional) A Hash that represent a value to be set
+    #     This value will be set the value of `set_json` of `Api::Mutation`
+    # @param del_obj [Hash] (optional) A Hash that represents a value to be
+    #     deleted. This value will be set the value of `delete_json` of `Api::Mutation`
+    # @param set_nquads [String] (optional) An N-Quad representing the value to be set for `Api::Mutation`
+    # @param del_nquads [String] (optional) An N-Quad representing the value to be deleted for `Api::Mutation`
+    #
+    # @return [Api::Mutation]
     def mutate(mutation: nil, set_obj: nil, del_obj: nil, set_nquads: nil, del_nquads: nil, cond: nil, commit_now: nil)
       request_mutation = create_mutation(
         mutation: mutation,
@@ -51,6 +62,14 @@ module Graphd
       do_request(request)
     end
 
+    # Execute a query
+    #
+    # @param query [String] (optional) A GraphQL query as a string
+    # @param variables [Hash] (optional) A Hash of variables used in the provided query
+    #     The keys can be symbols or strings but not numbers. The values must be
+    #     strings
+    #
+    # @return [Api::Response]
     def query(query, variables: nil)
       request = create_request(query: query, variables: variables)
       do_request(request)
@@ -82,7 +101,7 @@ module Graphd
     # Create an instance of Api::Request
     #
     # @param query [String] (optional) A GraphQL query as a string
-    # @param query [Hash] (optional) A Hash of variables used in the provided query
+    # @param variables [Hash] (optional) A Hash of variables used in the provided query
     #     The keys can be symbols or strings but not numbers. The values must be
     #     strings
     # @param mutations [Array<Api::Mutation>] A list of mutations
@@ -114,6 +133,11 @@ module Graphd
       request
     end
 
+    # Execute a mutate or query operation on the server
+    #
+    # @param request [Api::Request] a request object that contains a mutation or query
+    #
+    # @return [Api::Response]
     def do_request(request)
       raise TransactionError, 'Transaction has already been committed or discarded' if @finished
 
@@ -140,6 +164,7 @@ module Graphd
       @response
     end
 
+    # Discard the transaction
     def discard
       return unless common_discard
 
@@ -162,6 +187,7 @@ module Graphd
       @transaction_context.preds += src.preds
     end
 
+    # Commit the transaction
     def commit
       return unless common_commit
 
