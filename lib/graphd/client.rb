@@ -4,11 +4,13 @@ require_relative 'api_pb'
 require_relative 'transaction'
 
 module Graphd
-  # Client initialized to talk to a DGraph instance
-  # Accepts multiple instances of Graphd::ClientStub
+  # Client initialized to talk to a DGraph instance. Accepts multiple instances
+  # of Graphd::ClientStub
+  #
   # Examples:
-  # client_stub = Graphd::ClientStub.new('localhost:9080')
-  # client = Graphd::Cilent.new(client_stub)
+  #
+  #   client_stub = Graphd::ClientStub.new('localhost:9080')
+  #   client = Graphd::Cilent.new(client_stub)
   class Client
     # Create a new instance of Graphd::Client
     #

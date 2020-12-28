@@ -13,10 +13,10 @@ module Graphd
     # Create a new transaction
     #
     # @param client [Graphd::Client] The client for which the transaction needs to be created
-    # @param read_only [true, false] whether the transaction should be read only
+    # @param read_only [true, false] whether the transaction should be read only.
     #     Read-only transactions are ideal for transactions which only involve
     #     queries. Mutations and commits are not allowed.
-    # @param best_effort [true, false] Enable best-effort queries Best-effort
+    # @param best_effort [true, false] Enable best-effort queries. Best-effort
     #     queries are faster than normal queries because they bypass the normal
     #     consensus protocol. For this same reason, best-effort queries cannot
     #     guarantee to return the latest data. Best-effort queries are only
@@ -52,8 +52,8 @@ module Graphd
     # @param mutation [Api::Mutation] (optional) A mutation to be modified
     # @param set_obj [Hash] (optional) A Hash that represent a value to be set
     #     This value will be set the value of `set_json` of `Api::Mutation`
-    # @param del_obj [Hash] (optional) A Hash that represents a value to be deleted
-    #     This value will be set the value of `delete_json` of `Api::Mutation`
+    # @param del_obj [Hash] (optional) A Hash that represents a value to be
+    #     deleted. This value will be set the value of `delete_json` of `Api::Mutation`
     # @param set_nquads [String] (optional) An N-Quad representing the value to be set for `Api::Mutation`
     # @param del_nquads [String] (optional) An N-Quad representing the value to be deleted for `Api::Mutation`
     #

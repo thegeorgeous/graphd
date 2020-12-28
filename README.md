@@ -40,6 +40,5 @@ Everyone interacting in the Graphd project's codebases, issue trackers, chat roo
 
 ## TODO
 - Add support for metadata headers
-- Add support for timeouts
-- Add support for credentials
+- Add support for credentials and login
 - Add support for async calls

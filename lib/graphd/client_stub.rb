@@ -5,6 +5,7 @@ require_relative 'api_services_pb'
 
 module Graphd
   # gRPC Client stub for DGraph
+  #
   # This stub is a very thin wrapper over `GRPC::ClientStub`. It exists purely
   # to provide sensible defaults relevant to DGraph like host and credentials
   class ClientStub
@@ -18,7 +19,7 @@ module Graphd
     #     should be created with an insecure connection. Note: this argument is
     #     ignored if the channel_override argument is provided.
     # @param channel_override [GRPC::Core::Channel] a pre-created channel
-    # @param timeout [Number] the default timeout in milliseconds to use in requests
+    # @param timeout [Number] the default timeout in milliseconds to use in requests.
     #     This will be used to set the deadline for every call made using this stub
     # @param channel_args [Hash] the channel arguments. Note: this argument is
     #     ignored if the channel_override argument is provided.
