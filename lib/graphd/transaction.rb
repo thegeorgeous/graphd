@@ -4,6 +4,8 @@ require 'json'
 require_relative 'transaction_error'
 
 module Graphd
+  # rubocop:disable Metrics/ParameterLists
+
   # A transaction to perform queries and mutations
   #
   # A transaction bounds a sequence of queries and mutations that are committed
@@ -35,8 +37,15 @@ module Graphd
       @best_effort = best_effort
     end
 
-    def mutate(mutation: nil, set_obj: nil, del_obj: nil, commit_now: nil)
-      request_mutation = create_mutation(mutation: mutation, set_obj: set_obj, del_obj: del_obj)
+    def mutate(mutation: nil, set_obj: nil, del_obj: nil, set_nquads: nil, del_nquads: nil, cond: nil, commit_now: nil)
+      request_mutation = create_mutation(
+        mutation: mutation,
+        set_obj: set_obj,
+        del_obj: del_obj,
+        set_nquads: set_nquads,
+        del_nquads: del_nquads,
+        cond: cond
+      )
       commit_now ||= request_mutation.commit_now
       request = create_request(mutations: [request_mutation], commit_now: commit_now)
       do_request(request)
