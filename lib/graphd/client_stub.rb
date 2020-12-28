@@ -10,6 +10,18 @@ module Graphd
   class ClientStub
     attr_reader :stub
 
+    # Creates a new Graphd::ClientStub
+    #
+    # @param host [String] the host the stub connects to
+    # @param creds [GRPC::Core::ChannelCredentials|Symbol] the channel credentials, or
+    #     :this_channel_is_insecure, which explicitly indicates that the client
+    #     should be created with an insecure connection. Note: this argument is
+    #     ignored if the channel_override argument is provided.
+    # @param channel_override [GRPC::Core::Channel] a pre-created channel
+    # @param timeout [Number] the default timeout in milliseconds to use in requests
+    #     This will be used to set the deadline for every call made using this stub
+    # @param channel_args [Hash] the channel arguments. Note: this argument is
+    #     ignored if the channel_override argument is provided.
     def initialize(
       host = 'localhost:9080',
       credentials = :this_channel_is_insecure,
@@ -26,18 +38,34 @@ module Graphd
       )
     end
 
+    # Request the version of the DGraph server running on host
+    #
+    # @param request [Api::Check]
+    # @return [Api::Version]
     def check_version(request)
       @stub.check_version(request)
     end
 
+    # Run operations that alter the DGraph db like set schema and drop_all
+    #
+    # @param operation [Api::Operation]
+    # @return [Api::Payload]
     def alter(operation)
       @stub.alter(operation)
     end
 
+    # Query the db
+    #
+    # @param request [Api::Request]
+    # @return [Api::Response]
     def query(request)
       @stub.query(request)
     end
 
+    # Commit a mutation or abort if it fails
+    #
+    # @param transaction_context [Api::TxnContext]
+    # @return [Api::TxnContext]
     def commit_or_abort(transaction_context:)
       @stub.commit_or_abort(transaction_context)
     end

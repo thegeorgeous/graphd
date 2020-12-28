@@ -4,7 +4,23 @@ require 'json'
 require_relative 'transaction_error'
 
 module Graphd
+  # A transaction to perform queries and mutations
+  #
+  # A transaction bounds a sequence of queries and mutations that are committed
+  # by Dgraph as a single unit: that is, on commit, either all the changes are
+  # accepted by Dgraph or none are.
   class Transaction
+    # Create a new transaction
+    #
+    # @param client [Graphd::Client] The client for which the transaction needs to be created
+    # @param read_only [true, false] whether the transaction should be read only
+    #     Read-only transactions are ideal for transactions which only involve
+    #     queries. Mutations and commits are not allowed.
+    # @param best_effort [true, false] Enable best-effort queries Best-effort
+    #     queries are faster than normal queries because they bypass the normal
+    #     consensus protocol. For this same reason, best-effort queries cannot
+    #     guarantee to return the latest data. Best-effort queries are only
+    #     supported by read-only transactions.
     def initialize(client, read_only: false, best_effort: false)
       if !read_only && best_effort
         raise TransactionError, 'Best effort transactions are only compatible with read-only transactions'
@@ -31,6 +47,17 @@ module Graphd
       do_request(request)
     end
 
+    # Create or modify an instance of Api::Mutation with the provided configuration
+    #
+    # @param mutation [Api::Mutation] (optional) A mutation to be modified
+    # @param set_obj [Hash] (optional) A Hash that represent a value to be set
+    #     This value will be set the value of `set_json` of `Api::Mutation`
+    # @param del_obj [Hash] (optional) A Hash that represents a value to be deleted
+    #     This value will be set the value of `delete_json` of `Api::Mutation`
+    # @param set_nquads [String] (optional) An N-Quad representing the value to be set for `Api::Mutation`
+    # @param del_nquads [String] (optional) An N-Quad representing the value to be deleted for `Api::Mutation`
+    #
+    # @return [Api::Mutation]
     def create_mutation(mutation: nil, set_obj: nil, del_obj: nil, set_nquads: nil, del_nquads: nil, cond: nil)
       mutation ||= ::Api::Mutation.new
 
@@ -43,6 +70,18 @@ module Graphd
       mutation
     end
 
+    # Create an instance of Api::Request
+    #
+    # @param query [String] (optional) A GraphQL query as a string
+    # @param query [Hash] (optional) A Hash of variables used in the provided query
+    #     The keys can be symbols or strings but not numbers. The values must be
+    #     strings
+    # @param mutations [Array<Api::Mutation>] A list of mutations
+    # @param commit_now [true, false] Indicate that the mutation must be
+    #     immediately committed. This can be used when the mutation needs to be
+    #     committed, without querying anything further.
+    #
+    # @return [Api::Request]
     def create_request(query: nil, variables: nil, mutations: nil, commit_now: nil)
       request = ::Api::Request.new(
         start_ts: @transaction_context.start_ts,
