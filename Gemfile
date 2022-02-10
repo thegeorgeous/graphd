@@ -7,7 +7,7 @@ gemspec
 
 gem 'grpc'
 gem 'rake', '~> 13.0'
-gem 'rspec', '~> 3.0'
+gem 'rspec', '~> 3.11'
 gem 'rubocop'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
